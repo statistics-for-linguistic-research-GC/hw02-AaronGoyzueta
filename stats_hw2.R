@@ -1,5 +1,3 @@
-# R commands go here
-
 # Part 1
 x <- 501
 n <- 501 + 1859
@@ -7,13 +5,15 @@ n <- 501 + 1859
 binom.test(x, n, .5)
 
 # Part 2
-df <- read.table("PTB.tsv", sep="\t", header=TRUE)
+path <- "/Users/aarongoyzueta/Desktop/CUNY semester 2/Stats w: Kyle/HWS/HW 2/hw02-AaronGoyzueta/PTB.tsv"
+df <- read.table(path, sep="\t", header=TRUE)
 
-df_stan <- df[df$Stanford.tag==df$gold.tag, ]
-df_nlp <- df[df$NLP4J.tag==df$gold.tag, ]
+Stan.correct <- df$gold.tag == df$Stanford.tag
+Nlp.correct <- df$gold.tag == df$NLP4J.tag
 
-x1 <- nrow(df_stan[df_stan$gold.tag!=df_stan$NLP4J.tag, ])
-x2 <- nrow(df_nlp[df_nlp$gold.tag!=df_nlp$Stanford.tag, ])
+x1 <- sum(Stan.correct & !Nlp.correct)
+x2 <- sum(Nlp.correct & !Stan.correct)
+
 x <- min(x1, x2)
 n <- x1 + x2
 binom.test(x, n, .5)
